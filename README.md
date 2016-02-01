@@ -4,7 +4,7 @@ A shiny app to create (and modify) the figure in Wagenmakers, Morey, and Lee sub
 
 To run, ensure your `shiny` installation is updated (this is important) 
 
-    install.packages(c('shiny','shinyjs','Cairo'))
+    install.packages(c('shiny','shinyjs','Cairo'), dep = TRUE)
 
 you'll also need to install the `bioconductor` package `svgAnnotation`:
 
