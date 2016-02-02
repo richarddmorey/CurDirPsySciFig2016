@@ -1,7 +1,7 @@
 #################################################################
-##              file that contains functions to create         ##
+##              function that creates                          ##
 ##              Bob's IQ prior and posterior plot              ##
-##              script written by Quentin F. Gronau            ##
+##              function written by Quentin F. Gronau          ##
 ##              adapted somewhat by Richard D. Morey           ##
 #################################################################
 
@@ -107,6 +107,9 @@ BobsIQplot <- function(mean.prior, sd.prior, y, sd.lo, sd.up, x.lo=40, x.up=115)
   
 }
 
+### integrate() functions for posterior
+### All functions below by Richard D. Morey
+
 dbob_posterior <- Vectorize(function(mu, mean.prior, sd.prior, y, sd.lo, sd.up, log = FALSE, shift = 0, moment = 0, log.const = 0){
   mu = mu - shift
   N = length(y)
@@ -160,6 +163,11 @@ bob_post_mode = function(mean.prior, sd.prior, y, sd.lo, sd.up){
            log = TRUE, maximum = TRUE)$maximum
 }
 
+var.func.bob = function(mu,ex.mu,mean.prior, sd.prior, y, sd.lo, sd.up, log.const){
+  exp(2*log(abs(mu - ex.mu)) + dbob_posterior(mu,mean.prior, sd.prior, y, sd.lo, sd.up, log.const = log.const, log = TRUE))
+}
+
+
 summary_posterior <- function(mean.prior, sd.prior, y, sd.lo, sd.up){
   
   post.mode = bob_post_mode(mean.prior, sd.prior, y, sd.lo, sd.up)
@@ -177,15 +185,14 @@ summary_posterior <- function(mean.prior, sd.prior, y, sd.lo, sd.up){
                              sd.lo = sd.lo, 
                              sd.up = sd.up, moment = 1, log.const = log.const,shift = -post.mode)[[1]]
   
-  exp2.bob = integrate(dbob_posterior,-Inf,Inf,
-                       mean.prior = mean.prior, 
-                       sd.prior = sd.prior, 
-                       y = y,
-                       sd.lo = sd.lo, 
-                       sd.up = sd.up, moment = 2, log.const = log.const,shift=-post.mode)[[1]]
+  sd.posterior = sqrt(integrate(var.func,-Inf,Inf,
+                                ex.mu = mean.posterior,
+                                mean.prior = mean.prior, 
+                                sd.prior = sd.prior, 
+                                y = y,
+                                sd.lo = sd.lo, 
+                                sd.up = sd.up,log.const = log.const)[[1]])
   
-  var.posterior = exp2.bob - mean.posterior^2
-  sd.posterior = sqrt(var.posterior)
   return(c(
     post.mode = post.mode,
     log.const = log.const,

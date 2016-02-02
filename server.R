@@ -85,10 +85,14 @@ shinyServer(function(input,output,session) {
     
     par(mfcol=c(2,length(y)+1),mar=c(4,4,1.5,1),mgp=c(2.5,1,0),las=1,cex.lab=1.3,cex.axis=1.2,lwd=2)
     
-    
+    # estimate max y dens value
+    summ = summary_posterior(mean.prior, sd.prior, y, sd.lo, sd.up)
+    sd.y = sqrt(summ[["sd.posterior"]]^2 + sd.lo^2)
+    y.max = dnorm(0,0,sd.y)
+
     
     for(i in 1:(length(y)+1)){
-      y0 = rev(y[-(4:i)])
+      y0 = rev(y[-((length(y)+1):i)])
       
       p.start = c(mean(y),.5*(sd.lo+sd.up))
       log.const = dbob_joint(p.start,mean.prior, sd.prior, y, sd.lo, sd.up, log = TRUE)
@@ -127,17 +131,21 @@ shinyServer(function(input,output,session) {
       
       
       at.y = seq(20,180,len=100)
+      if(i>1) 
+        old.x = x
       x=rowMeans(apply(samps,1,function(pars,at){
         dnorm(at,pars[1],pars[2])
       },at=at.y))
       
       
-      plot(at.y,x,xlim=c(15,135),ty='l',axes=FALSE,ylab="Density",xlab="Predicted IQ Scores")
+      plot(at.y,x,xlim=c(15,135),ty='l',axes=FALSE,ylab="Density",xlab="Predicted IQ Scores",ylim=c(0,y.max))
+      if(i>1)
+        lines(at.y,old.x,col=rgb(0,0,0,.3),lty=2)
       axis(1)
       box()
       abline(h=0,col="gray")
       if(i<=length(y)){
-        points(y[i],0,col="red",pch="x",cex=2)
+        points(y[i],0,col="red",pch=19,cex=2)
       }
       if(i>1){
         points(y[0:(i-1)],rep(0,(i-1)),col="black",pch="x",cex=2)
