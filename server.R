@@ -104,7 +104,7 @@ shinyServer(function(input,output,session) {
                    sd.lo = sd.lo, 
                    sd.up = sd.up,log.const = log.const, log = TRUE)
       
-      n.points = 100
+      n.points = 75
       qs = matrix(0,n.points,2)
       qs[,1] = seq(x.lo,x.up,len=n.points)
       qs[,2] = seq(sd.lo,sd.up,len=n.points)
