@@ -15,7 +15,7 @@ This code will attempt to install the required packages and run the app:
 
 To run, ensure your `shiny` installation is updated (this is important) 
 
-    install.packages(c('shiny','shinyjs','Cairo'), dep = TRUE)
+    install.packages(c('shiny','shinyjs','Cairo','HI'), dep = TRUE)
 
 you'll also need to install the `bioconductor` package `svgAnnotation`:
 
