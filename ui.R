@@ -41,9 +41,16 @@ shinyUI(
         )
       )
     ),
-    tabPanel(title="Figure 1 explanation",
+    tabPanel(title="Fig. 1 expl.",
       withMathJax(),
       uiOutput(outputId="summaries")
+    ),
+    tabPanel(title="Figure 3",
+        plotOutput(outputId="svg.grid2")
+    ),
+    tabPanel(title="Fig. 3 expl.",
+             withMathJax(),
+             helpText('This is explanation for Figure 3.')
     )
   )
 )

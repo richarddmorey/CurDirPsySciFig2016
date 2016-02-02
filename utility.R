@@ -194,3 +194,21 @@ summary_posterior <- function(mean.prior, sd.prior, y, sd.lo, sd.up){
   ))
 }
 
+
+dbob_joint <- function(pars, mean.prior, sd.prior, y, sd.lo, sd.up, log.const = 0, log = FALSE){
+  la =  dnorm( pars[1], mean.prior, sd.prior, log = TRUE) +
+    log(pars[2]>sd.lo & pars[2]<sd.up) - log.const
+  if(length(y)>0){
+    la = la + sum(dnorm(y, pars[1], pars[2], log = TRUE))
+  }
+  if(log){
+    return(la)
+  }else{
+    return(exp(la))
+  }
+}
+
+ind.func = function(pars, mean.prior, sd.prior, y, sd.lo, sd.up,...){
+  pars[1]>20 & pars[1]<180 & pars[2]>sd.lo & pars[2]<sd.up
+}
+
