@@ -1,4 +1,4 @@
-# Figure 1 in Wagenmakers, Morey, and Lee
+# Interactive Figures 1 and 3 in Wagenmakers, Morey, and Lee
 
 A shiny app to create (and modify) the figure in Wagenmakers, Morey, and Lee submitted to Current Directions in Psychological Science.
 
