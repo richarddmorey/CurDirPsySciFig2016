@@ -185,7 +185,7 @@ summary_posterior <- function(mean.prior, sd.prior, y, sd.lo, sd.up){
                              sd.lo = sd.lo, 
                              sd.up = sd.up, moment = 1, log.const = log.const,shift = -post.mode)[[1]]
   
-  sd.posterior = sqrt(integrate(var.func,-Inf,Inf,
+  sd.posterior = sqrt(integrate(var.func.bob,-Inf,Inf,
                                 ex.mu = mean.posterior,
                                 mean.prior = mean.prior, 
                                 sd.prior = sd.prior, 
