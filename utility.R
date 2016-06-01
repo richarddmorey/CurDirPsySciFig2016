@@ -113,7 +113,7 @@ BobsIQplot <- function(mean.prior, sd.prior, y, sd.lo, sd.up, x.lo=40, x.up=115)
 dbob_posterior <- Vectorize(function(mu, mean.prior, sd.prior, y, sd.lo, sd.up, log = FALSE, shift = 0, moment = 0, log.const = 0){
   mu = mu - shift
   N = length(y)
-  alpha = (N - 1)/2
+  alpha = (N + 1)/2
   beta = sum( (y - mu)^2 ) / 2
   int.sig  = pgamma(1/sd.lo^2, shape = alpha, rate = beta) - pgamma(1/sd.up^2, shape = alpha, rate = beta)
   if( log & moment) stop("log and moment cannot both be TRUE.")
